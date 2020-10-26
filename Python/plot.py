@@ -1,5 +1,5 @@
 import sys
-import matplotlib.pyplot as pyplot
+import matplotlib.pyplot as plt
 
 class axis:
     def __init__(self, lst = []):

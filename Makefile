@@ -3,7 +3,7 @@ CFLAGS = -I $(CURDIR)/include/
 OUT = ./lib/libDSPlib.a
 SRC = ./src
 DEP = $(INC)/signal.h
-OBJ = ./src/signal.o ./src/time_domain.o
+OBJ = ./src/signal.o ./src/time_domain.o ./src/plot.o
 
 all: $(OUT)
 
