@@ -15,4 +15,5 @@ void time_delay(signal *sig, long delay);
 void time_advance(signal *sig, long delay);
 void time_reversal(signal *sig);
 
-void plot_y(signal sig);
+void plot_y(signal sig, char *xlabel, char *ylabel, char *title);
+void plot_xy(signal x, signal y, char *xlabel, char *ylabel, char *title);
