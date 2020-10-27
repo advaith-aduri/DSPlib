@@ -6,6 +6,7 @@ class axis:
         self.data = lst.copy()
         self.size = 0
 
+
 def plot_y():
     """
     Data piping order:
@@ -29,6 +30,7 @@ def plot_y():
     plt.ylabel(ylabel)
     plt.title(title)
     plt.show()
+
 
 def plot_xy():
     """
@@ -61,6 +63,28 @@ def plot_xy():
     plt.title(title)
     plt.show()
 
+
+def plot_ny():
+    size = int(sys.stdin.readline())
+    for i in range(size):
+        x = axis()
+        x.size = int(sys.stdin.readline())
+        for j in range(x.size):
+            x.data.append(float(sys.stdin.readline()))
+        plt.plot(x.data)
+    
+    xlabel = sys.stdin.readline()
+    ylabel = sys.stdin.readline()
+    title = sys.stdin.readline()
+
+    plt.xlabel(xlabel)
+    plt.ylabel(ylabel)
+    plt.title(title)
+    plt.autoscale()
+    plt.show()
+
+
+
 v = int(sys.stdin.readline())
 
 if (v == 1):
@@ -68,5 +92,6 @@ if (v == 1):
     print('k')
 elif (v == 2):
     plot_xy()
-
+elif (v == 3):
+    plot_ny()
     

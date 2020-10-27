@@ -60,7 +60,6 @@ void plot_xy(signal x, signal y, char *xlabel, char *ylabel, char *title)
     {
         fprintf(fp,"%f\n",x.data[i]);
     }
-    fflush(fp);
     //sending size of y data to plot.py
     fprintf(fp,"%ld\n",y.size);
     //sending data to plot.py
@@ -69,6 +68,32 @@ void plot_xy(signal x, signal y, char *xlabel, char *ylabel, char *title)
         fprintf(fp,"%f\n",y.data[i]);
     }
 
+    //sending xlabel to plot.py
+    fprintf(fp,"%s\n",xlabel);
+    //sending ylabel to plot.py
+    fprintf(fp,"%s\n",ylabel);
+    //sending title to plot.py
+    fprintf(fp,"%s\n",title);
+    fclose(fp);
+}
+
+void plot_ny(signal y[], int size, char *xlabel, char *ylabel, char *title)
+{
+    FILE *fp = popen(plot_cmd,"w");
+    //sending code to plot.py
+    fprintf(fp,"%d\n",3);
+    //sending number of variables to plot
+    fprintf(fp,"%d\n",size);
+    for (int i = 0; i < size; i++)
+    {
+        //sending size of data to plot.py
+        fprintf(fp,"%ld\n",y[i].size);
+        //sending data to plot.py
+        for (int j = 0; j < y[i].size; j++)
+        {
+            fprintf(fp,"%f\n",y[i].data[j]);
+        }
+    }
     //sending xlabel to plot.py
     fprintf(fp,"%s\n",xlabel);
     //sending ylabel to plot.py
