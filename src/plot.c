@@ -17,15 +17,13 @@ Ps:- if multiple data exist, repeat 1,2 before going to 3
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
+#include <string.h>
 #include "../include/signal.h"
 
-char plot_cmd[] = "python3 ../Python/plot.py";
-
+char plot_cmd[] = "python3 ../Python/";
 void plot_y(signal sig, char *xlabel, char *ylabel, char *title)
 {
-    FILE *fp = popen(plot_cmd,"w");
-    //sending number of variables to plot
-    fprintf(fp,"%d\n",1);
+    FILE *fp = popen("python3 ../Python/plot_y.py","w");
     //sending size of data to plot.py
     fprintf(fp,"%ld\n",sig.size);
     //sending data to plot.py
@@ -50,9 +48,7 @@ void plot_xy(signal x, signal y, char *xlabel, char *ylabel, char *title)
         printf("Incorrect signal dimensions.\n");
         return;
     }
-    FILE *fp = popen(plot_cmd,"w");
-    //sending number of variables to plot
-    fprintf(fp,"%d\n",2);
+    FILE *fp = popen("python3 ../Python/plot_xy.py","w");
     //sending size of x data to plot.py
     fprintf(fp,"%ld\n",x.size);
     //sending data to plot.py
@@ -79,9 +75,7 @@ void plot_xy(signal x, signal y, char *xlabel, char *ylabel, char *title)
 
 void plot_ny(signal y[], int size, char *xlabel, char *ylabel, char *title)
 {
-    FILE *fp = popen(plot_cmd,"w");
-    //sending code to plot.py
-    fprintf(fp,"%d\n",3);
+    FILE *fp = popen("python3 ../Python/plot_ny.py","w");
     //sending number of variables to plot
     fprintf(fp,"%d\n",size);
     for (int i = 0; i < size; i++)
