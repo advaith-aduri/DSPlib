@@ -1,14 +1,16 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include <math.h>
 #include "signal.h"
-
+#include <time.h>
 int main(int argc, char const *argv[])
 {
-	double arr[6] = {6, 5, 4, 8, 7, 34};
-	double time[6] = {1, 2, 3, 4, 5, 6};
-	signal sig = signal_init(2, arr, sizeof(arr)/sizeof(double));
-	signal sig2 = signal_init(2, time, sizeof(time)/sizeof(double));
-	signal a[2] = {sig,sig2};
-	plot_ny(a,2,"time","amp","test");
+	long size;
+	double *arr = create_arr(0,0.001,3.14*2,&size);
+	double *arr1 = sine(0,0.001,3.14*2,&size);
+	signal t = signal_init(0, arr, size);
+	signal y = signal_init(0, arr1, size);
+	time_reversal(&y);
+	plot_xy(t,y,"time","amplitude","test");
 	return 0;
 }

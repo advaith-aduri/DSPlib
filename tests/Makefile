@@ -1,5 +1,5 @@
 CC = gcc
-CFLAGS = -Wall -I $(CURDIR)/../include/ 
+CFLAGS = -I $(CURDIR)/../include/ -lm
 LDFLAGS = 
 OBJ = $(CURDIR)/../src/*.o
 OUT = test
@@ -8,4 +8,4 @@ OUT = test
 all: $(OUT)
 
 $(OUT): $(OUT).c $(OBJ)
-	$(CC) $(CFLAGS) $(LDFLAGS) -o $@ $^
+	$(CC) $(LDFLAGS) -o $@ $^ $(CFLAGS)
