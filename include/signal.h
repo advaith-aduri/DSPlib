@@ -1,10 +1,13 @@
 #pragma once
 
+#include <complex.h>
+
 typedef struct signal{
 	long zero;
 	double *data;
 	long size;
 } signal;
+
 
 
 signal signal_init(long zero, double *data, long size);
@@ -29,3 +32,19 @@ double * tangent(double start, double step, double end, long *size);
 double * exponent(double start, double step, double end, long *size);
 double * log_e(double start, double step, double end, long *size);
 double * log_10(double start, double step, double end, long *size);
+
+
+// Frequency domain
+
+typedef struct spectrum{
+	double complex *data;
+	long size;
+} spectrum;
+
+void print_freq(spectrum freq);
+
+double mag(double complex val);
+spectrum DFT(double *signal, long N);
+spectrum FFT(double *signal, long N);
+
+void plot_f(spectrum freq, char *xlabel, char *ylabel, char *title);

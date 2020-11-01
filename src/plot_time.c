@@ -96,3 +96,4 @@ void plot_ny(signal y[], int size, char *xlabel, char *ylabel, char *title)
     fprintf(fp,"%s\n",title);
     fclose(fp);
 }
+
