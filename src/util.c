@@ -10,8 +10,10 @@
 #include <stdlib.h>
 #include "../include/signal.h"
 
+
 double * create_arr(double start, double step, double end, long *size)
 {
+    // Here step refers to 1 / Fs
     if (((start > end) && (step >= 0)) || ((start < end) && (step <= 0)))
     {
         printf("Could not create array.\nExiting the program.\n");
