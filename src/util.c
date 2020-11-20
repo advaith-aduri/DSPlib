@@ -29,6 +29,24 @@ double * create_arr(double start, double step, double end, long *size)
     return arr;
 }
 
+void resize_signal(signal *sig)
+{
+    int i = 0;
+    while (sig->size > pow(2,i))
+    {
+        i++;
+    }
+    if (sig->size == pow(2,i))
+        return;
+    double *temp = (double *)malloc(sizeof(double)*pow(2,i));
+    for  (int i = 0; i < sig->size; i++)
+    {
+        temp[i] = sig->data[i];
+    }
+    sig->size = pow(2,i);
+    sig->data = temp;
+    return;
+}
 
 double * sine(double start, double step, double end, long *size)
 {
