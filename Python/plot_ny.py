@@ -1,5 +1,6 @@
 import sys
 import matplotlib.pyplot as plt
+from os import fork
 
 class axis:
     def __init__(self, lst = []):
@@ -26,5 +27,6 @@ def plot_ny():
     plt.autoscale()
     plt.show()
 
-
-plot_ny()
+n = fork()
+if n == 0:
+    plot_ny()

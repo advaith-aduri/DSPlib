@@ -1,5 +1,6 @@
 import sys
 import matplotlib.pyplot as plt
+from os import fork
 
 class axis:
     def __init__(self, lst = []):
@@ -36,5 +37,6 @@ def plot_xy():
     plt.ylabel(ylabel)
     plt.title(title)
     plt.show()
-
-plot_xy()
+n = fork()
+if n == 0:
+    plot_xy()

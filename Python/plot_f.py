@@ -1,6 +1,9 @@
 import sys
 import matplotlib.pyplot as plt
 from math import floor
+from os import fork
+
+
 class axis:
     def __init__(self, lst = []):
         self.data = lst.copy()
@@ -42,4 +45,6 @@ def plot_f():
     ax[1].set_ylabel("Amplitude")
     plt.show()
 
-plot_f()
+n = fork()
+if n == 0:
+    plot_f()
