@@ -54,7 +54,7 @@ spectrum DFT(double *signal, long N);
 spectrum FFT(signal sig);
 
 // Multithreaded implementations
-spectrum FFT_th(signal sig);
+spectrum FFT_th(signal sig, int cores);
 
 // frequency plot
 void plot_f(spectrum freq, double Fs);

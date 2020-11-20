@@ -10,18 +10,20 @@ typedef struct{
 	double single;
 } time_taken;
 
-time_taken test(long size);
+time_taken test(long size, int core);
 
 
 int main(int argc, char const *argv[])
 {
+	
 	time_taken k;
 	double multith = 0,singleth = 0;
-	int N = 1;
-	long size = 50000;
+	int N = 25;
+	long size = 5000;
+	int cores = 8;
 	for (int i = 0; i < N; i++)
 	{
-		k = test(size);
+		k = test(size,cores);
 		multith += k.multi;
 		singleth += k.single;
 	}
@@ -32,7 +34,7 @@ int main(int argc, char const *argv[])
 	return 0;
 }
 
-time_taken test(long size)
+time_taken test(long size, int core)
 {
 	double x[size];
 	time_taken m;
@@ -47,7 +49,7 @@ time_taken test(long size)
 	m.single = ( stop.tv_sec - start.tv_sec ) + (double)( stop.tv_nsec - start.tv_nsec ) / (double)BILLION;
 	
 	clock_gettime( CLOCK_MONOTONIC, &start);
-	FFT_th(s);
+	FFT_th(s,core);
 	clock_gettime( CLOCK_MONOTONIC, &stop);
 	m.multi = ( stop.tv_sec - start.tv_sec ) + (double)( stop.tv_nsec - start.tv_nsec ) / (double)BILLION;
 	return m;
