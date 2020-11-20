@@ -72,10 +72,12 @@ spectrum DFT(double *signal, long N)
     return freq;
 }
 
-spectrum FFT(double *signal, long N)
+spectrum FFT(signal sig)
 {
-    double *ev = get_even(signal, N);
-    double *od = get_odd(signal, N);
+    resize_signal(&sig);
+    long N = sig.size;
+    double *ev = get_even(sig.data, N);
+    double *od = get_odd(sig.data, N);
     double complex *freq = (double complex *)malloc(sizeof(double complex)*N);
     spectrum fev = DFT(ev,N/2);
     spectrum fod = DFT(od,N/2);

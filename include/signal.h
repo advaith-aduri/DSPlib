@@ -25,6 +25,7 @@ void plot_xy(signal x, signal y, char *xlabel, char *ylabel, char *title);
 void plot_ny(signal y[], int size, char *xlabel, char *ylabel, char *title);
 
 // Functions in util.c
+void resize_signal(signal *sig);
 double * create_arr(double start, double step, double end, long *size);
 double * sine(double start, double step, double end, long *size);
 double * cosine(double start, double step, double end, long *size);
@@ -41,10 +42,19 @@ typedef struct spectrum{
 	long size;
 } spectrum;
 
+// helper functions
 void print_freq(spectrum freq);
-
 double mag(double complex val);
-spectrum DFT(double *signal, long N);
-spectrum FFT(double *signal, long N);
+double complex W_n(double k, double N);
+double * get_odd(double *arr, int size);
+double * get_even(double *arr, int size);
 
-void plot_f(spectrum freq, char *xlabel, char *ylabel, char *title);
+// Singlethreaded implementations
+spectrum DFT(double *signal, long N);
+spectrum FFT(signal sig);
+
+// Multithreaded implementations
+spectrum FFT_th(signal sig, int cores);
+
+// frequency plot
+void plot_f(spectrum freq, double Fs);

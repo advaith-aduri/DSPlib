@@ -1,5 +1,5 @@
 CC = gcc
-CFLAGS = -I $(CURDIR)/../include/ -lm 
+CFLAGS = -I $(CURDIR)/../include/ -std=gnu99 -lm -lpthread -lrt
 LDFLAGS = 
 OBJ = $(CURDIR)/../src/*.o
 OUT = test

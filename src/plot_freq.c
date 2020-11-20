@@ -20,21 +20,21 @@ Ps:- if multiple data exist, repeat 1,2 before going to 3
 #include <string.h>
 #include "../include/signal.h"
 
-void plot_f(spectrum freq, char *xlabel, char *ylabel, char *title)
+void plot_f(spectrum freq, double Fs)
 {
-    FILE *fp = popen("python3 ../Python/plot_y.py","w");
+    FILE *fp = popen("python3 ../Python/plot_f.py","w");
+    //sending Fs of data to plot.py
+    fprintf(fp,"%f\n",Fs);
     //sending size of data to plot.py
     fprintf(fp,"%ld\n",freq.size);
     //sending data to plot.py
     for (int i = 0; i < freq.size; i++)
     {
-        fprintf(fp,"%f\n",mag(freq.data[i]));
+        fprintf(fp,"%f\n",cabs(freq.data[i]));
     }
-    //sending xlabel to plot.py
-    fprintf(fp,"%s\n",xlabel);
-    //sending ylabel to plot.py
-    fprintf(fp,"%s\n",ylabel);
-    //sending title to plot.py
-    fprintf(fp,"%s\n",title);
+    for (int i = 0; i < freq.size; i++)
+    {
+        fprintf(fp,"%f\n",carg(freq.data[i]));
+    }
     fclose(fp);
 }
