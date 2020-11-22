@@ -18,7 +18,6 @@ typedef struct{
     double *signal;
     long size;
     spectrum *output;
-    int core;
 } th_data;
 
 void *runner(void *param)
@@ -26,22 +25,13 @@ void *runner(void *param)
     th_data *var = param;
 
     spectrum *temp = (spectrum *)malloc(sizeof(spectrum));
-    if (var->core == 1)
-    { 
-        *temp = DFT(var->signal,var->size);
-    }
-    else
-    {
-        signal *temp_sig = (signal *)malloc(sizeof(signal));
-        temp_sig->data = var->signal;
-        temp_sig->size = var->size;
-        temp_sig->zero = 0;
-        *temp = FFT_th(*temp_sig,var->core);
-    }
+    
+    *temp = DFT(var->signal,var->size);
+   
     (var->output) = temp;
 }
 
-spectrum FFT_th(signal sig, int cores)
+spectrum FFT_th(signal sig)
 {
     resize_signal(&sig);
     long N = sig.size;
@@ -53,12 +43,10 @@ spectrum FFT_th(signal sig, int cores)
     pthread_t tid[2];
     pthread_attr_t attr[2];
     th_data t_data[2];
-    int core = cores/2;
     for (int i = 0; i < 2; i++)
     {
         t_data[i].signal = d[i];
         t_data[i].size = N/2;
-        t_data[i].core = core;
         pthread_attr_init(&attr[i]);
         if (pthread_create(&tid[i],&attr[i],runner,&t_data[i]) != 0)
             printf("Falied to create thread.\n");

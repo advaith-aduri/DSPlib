@@ -2,17 +2,19 @@ CC = gcc
 CFLAGS = -I $(CURDIR)/include/ -lm -lpthread -lrt
 OUT = ./lib/libDSPlib.a
 SRC = ./src
+LIB = ./lib
+INC = ./include
 DEP = $(INC)/signal.h
-OBJ = ./src/signal.o ./src/time_domain.o ./src/plot_time.o ./src/plot_freq.o ./src/util.o ./src/frequency_domain.o ./src/FFT_Threaded.o
+OBJ = ./lib/signal.o ./lib/time_domain.o ./lib/plot_time.o ./lib/plot_freq.o ./lib/util.o ./lib/frequency_domain.o ./lib/FFT_Threaded.o
 
 all: $(OUT)
 
 $(OUT): $(OBJ) 
 	ar -rcs $(OUT) $(OBJ)
 
-$(SRC)/%.o: $(SRC)/%.c  $(DEP)
-	$(CC) -c -o $@ $^ $(CFLAGS) 
+$(LIB)/%.o: $(SRC)/%.c  $(DEP)
+	$(CC) -c $< -o $@ $(CFLAGS) 
 
 clean:
-	rm $(SRC)/*.o
+	rm $(LIB)/*.o
 

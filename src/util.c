@@ -48,62 +48,83 @@ void resize_signal(signal *sig)
     return;
 }
 
-double * sine(double start, double step, double end, long *size)
+double * sine(signal sig, double fc)
 {
-    double *arr = create_arr(start, step, end, size);
-    for (int i = 0; i < *size; i++)
+    double *arr = (double *)malloc(sizeof(double) * sig.size);
+    for (int i = 0; i < sig.size; i++)
     {
-        arr[i] = sin(arr[i]);
+        arr[i] = sin(2 * M_PI * fc * sig.data[i]);
     }
     return arr;
 }
 
-double * cosine(double start, double step, double end, long *size)
+double * cosine(signal sig, double fc)
 {
-    double *arr = create_arr(start, step, end, size);
-    for (int i = 0; i < *size; i++)
+    double *arr = (double *)malloc(sizeof(double) * sig.size);
+    for (int i = 0; i < sig.size; i++)
     {
-        arr[i] = cos(arr[i]);
+        arr[i] = cos(2 * M_PI * fc * sig.data[i]);
     }
     return arr;
 }
 
-double * tangent(double start, double step, double end, long *size)
+double * tangent(signal sig, double fc)
 {
-    double *arr = create_arr(start, step, end, size);
-    for (int i = 0; i < *size; i++)
+    double *arr = (double *)malloc(sizeof(double) * sig.size);
+    for (int i = 0; i < sig.size; i++)
     {
-        arr[i] = tan(arr[i]);
+        arr[i] = tan(2 * M_PI * fc * sig.data[i]);
     }
     return arr;
 }
 
-double * exponent(double start, double step, double end, long *size)
+double * exponent(signal sig)
 {
-    double *arr = create_arr(start, step, end, size);
-    for (int i = 0; i < *size; i++)
+    double *arr = (double *)malloc(sizeof(double) * sig.size);
+    for (int i = 0; i < sig.size; i++)
     {
-        arr[i] = exp(arr[i]);
+        arr[i] = exp(sig.data[i]);
     }
     return arr;
 }
 
-double * log_e(double start, double step, double end, long *size)
+double * log_e(signal sig)
 {
-    double *arr = create_arr(start, step, end, size);
-    for (int i = 0; i < *size; i++)
+    double *arr = (double *)malloc(sizeof(double) * sig.size);
+    for (int i = 0; i < sig.size; i++)
     {
-        arr[i] = log(arr[i]);
+        arr[i] = log(sig.data[i]);
     }
     return arr;
 }
 
-double * log_10(double start, double step, double end, long *size)
+double * log_10(signal sig)
 {
-    double *arr = create_arr(start, step, end, size);
-    for (int i = 0; i < *size; i++)
+    double *arr = (double *)malloc(sizeof(double) * sig.size);
+    for (int i = 0; i < sig.size; i++)
     {
-        arr[i] = log10(arr[i]);
+        arr[i] = log10(sig.data[i]);
     }
     return arr;
+}
+
+
+double * convolution(double * sig1, long size1, double * sig2, long size2)
+{
+    double *output = (double *)malloc(sizeof(double)*(size1 + size2 - 1));
+    for (long i = 0; i < (size1 + size2 - 1); i++)
+    {
+        output[i] = 0;
+        for (long j = 0; j < size1; j++)
+        {
+            for (long k = 0; k < size2; k++)
+            {
+                if (j + k - 1 == i)
+                {
+                    output[i] += sig1[j] * sig2[k];
+                }
+            }
+        }
+    }
+    return output;
 }

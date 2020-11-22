@@ -27,12 +27,13 @@ void plot_ny(signal y[], int size, char *xlabel, char *ylabel, char *title);
 // Functions in util.c
 void resize_signal(signal *sig);
 double * create_arr(double start, double step, double end, long *size);
-double * sine(double start, double step, double end, long *size);
-double * cosine(double start, double step, double end, long *size);
-double * tangent(double start, double step, double end, long *size);
-double * exponent(double start, double step, double end, long *size);
-double * log_e(double start, double step, double end, long *size);
-double * log_10(double start, double step, double end, long *size);
+double * sine(signal sig, double fc);
+double * cosine(signal sig, double fc);
+double * tangent(signal sig, double fc);
+double * exponent(signal sig);
+double * log_e(signal sig);
+double * log_10(signal sig);
+double * convolution(double * sig1, long size1, double * sig2, long size2);
 
 
 // Frequency domain
@@ -54,7 +55,7 @@ spectrum DFT(double *signal, long N);
 spectrum FFT(signal sig);
 
 // Multithreaded implementations
-spectrum FFT_th(signal sig, int cores);
+spectrum FFT_th(signal sig);
 
 // frequency plot
 void plot_f(spectrum freq, double Fs);
