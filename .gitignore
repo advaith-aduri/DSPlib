@@ -1,5 +1,5 @@
 .vscode/
-src/*.o
+lib/*.o
 tests/*
 .gitignore
 lib/*

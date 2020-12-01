@@ -10,7 +10,7 @@ typedef struct{
 	double single;
 } time_taken;
 
-time_taken test(long size, int core);
+time_taken test(long size);
 
 
 int main(int argc, char const *argv[])
@@ -18,23 +18,25 @@ int main(int argc, char const *argv[])
 	
 	time_taken k;
 	double multith = 0,singleth = 0;
-	int N = 25;
-	long size = 5000;
-	int cores = 8;
+	int N = 2;
+	long size[] = {2,4,8,16,32,64,128,256,512,1024,2048,4096,8192,50000};
+	printf("Size\tTime_Single\tTime_Multi\tPerformance\n");
+	for (int j = 0; j < 14;j++)
+	{
 	for (int i = 0; i < N; i++)
 	{
-		k = test(size,cores);
+		k = test(size[j]);
 		multith += k.multi;
 		singleth += k.single;
 	}
 	multith /= N;
 	singleth /= N;
-	printf("The performance improvement is %f.\n",(singleth/multith));
-	
+	printf("%ld \t %f \t %f \t %f\n",size[j],singleth,multith,(singleth/multith));
+	}
 	return 0;
 }
 
-time_taken test(long size, int core)
+time_taken test(long size)
 {
 	double x[size];
 	time_taken m;
@@ -49,7 +51,7 @@ time_taken test(long size, int core)
 	m.single = ( stop.tv_sec - start.tv_sec ) + (double)( stop.tv_nsec - start.tv_nsec ) / (double)BILLION;
 	
 	clock_gettime( CLOCK_MONOTONIC, &start);
-	FFT_th(s,core);
+	FFT_th(s);
 	clock_gettime( CLOCK_MONOTONIC, &stop);
 	m.multi = ( stop.tv_sec - start.tv_sec ) + (double)( stop.tv_nsec - start.tv_nsec ) / (double)BILLION;
 	return m;

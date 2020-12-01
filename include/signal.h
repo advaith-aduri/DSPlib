@@ -9,9 +9,11 @@ typedef struct signal{
 } signal;
 
 
-
+// Basic signal funtions
 signal signal_init(long zero, double *data, long size);
 void signal_print(signal sig);
+signal get_time(signal sig, double Fs);
+double * convolution(double * sig1, long size1, double * sig2, long size2);
 
 // Time related Operations
 void time_shifting(signal *sig, long shift);
@@ -33,7 +35,6 @@ double * tangent(signal sig, double fc);
 double * exponent(signal sig);
 double * log_e(signal sig);
 double * log_10(signal sig);
-double * convolution(double * sig1, long size1, double * sig2, long size2);
 
 
 // Frequency domain
