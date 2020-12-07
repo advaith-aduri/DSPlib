@@ -1,5 +1,5 @@
 /**********************************************
-*  plot.c : Plots a signal using pyhon script
+*  plot.c : Plots a signal using python script
 *
 *  Author: Aduri Sri Sambasiva Advaith
 *
@@ -18,10 +18,10 @@ Ps:- if multiple data exist, repeat 1,2 before going to 3
 #include <stdlib.h>
 #include <unistd.h>
 #include <string.h>
-#include "../include/signal.h"
+#include "../include/dsplib.h"
 
-char plot_cmd[] = "python3 ../Python/";
-void plot_y(signal sig, char *xlabel, char *ylabel, char *title)
+
+void plot_y(signal_t sig, char *xlabel, char *ylabel, char *title)
 {
     FILE *fp = popen("python3 ../Python/plot_y.py","w");
     //sending size of data to plot.py
@@ -41,7 +41,7 @@ void plot_y(signal sig, char *xlabel, char *ylabel, char *title)
 }
 
 
-void plot_xy(signal x, signal y, char *xlabel, char *ylabel, char *title)
+void plot_xy(signal_t x, signal_t y, char *xlabel, char *ylabel, char *title)
 {
     if (x.size != y.size)
     {
@@ -73,7 +73,7 @@ void plot_xy(signal x, signal y, char *xlabel, char *ylabel, char *title)
     fclose(fp);
 }
 
-void plot_ny(signal y[], int size, char *xlabel, char *ylabel, char *title)
+void plot_ny(signal_t y[], int size, char *xlabel, char *ylabel, char *title)
 {
     FILE *fp = popen("python3 ../Python/plot_ny.py","w");
     //sending number of variables to plot

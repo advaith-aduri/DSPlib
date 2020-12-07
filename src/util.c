@@ -8,10 +8,10 @@
 #include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include "../include/signal.h"
+#include "../include/dsplib.h"
 
-
-double * create_arr(double start, double step, double end, long *size)
+// This function takes the start value and keeps adding step to it until it reaches the end value and returns the resulting array
+double * linspace(double start, double step, double end, long *size)
 {
     // Here step refers to 1 / Fs
     if (((start > end) && (step >= 0)) || ((start < end) && (step <= 0)))
@@ -29,7 +29,7 @@ double * create_arr(double start, double step, double end, long *size)
     return arr;
 }
 
-void resize_signal(signal *sig)
+void resize_signal(signal_t *sig)
 {
     int i = 0;
     while (sig->size > pow(2,i))
@@ -48,7 +48,45 @@ void resize_signal(signal *sig)
     return;
 }
 
-double * sine(signal sig, double fc)
+/*
+The following functions provide implementation of some of the basic signals.
+*/
+
+double * step(signal_t sig)
+{
+    double *arr = (double *)malloc(sizeof(double) * sig.size);
+    for (int i = 0; i < sig.size; i++)
+    {
+        if (sig.zero >= i)
+        {
+            arr[i] = 1;
+        }
+        else
+        {
+            arr[i] = 0;
+        }
+    }
+    return arr;
+}
+
+double * ramp(signal_t sig, long Fs)
+{
+    double *arr = (double *)malloc(sizeof(double) * sig.size);
+    for (int i = 0; i < sig.size; i++)
+    {
+        if (sig.zero >= i)
+        {
+            arr[i] = ((double)i - sig.zero) / Fs;
+        }
+        else
+        {
+            arr[i] = 0;
+        }
+    }
+    return arr;
+}
+
+double * sine(signal_t sig, double fc)
 {
     double *arr = (double *)malloc(sizeof(double) * sig.size);
     for (int i = 0; i < sig.size; i++)
@@ -58,7 +96,7 @@ double * sine(signal sig, double fc)
     return arr;
 }
 
-double * cosine(signal sig, double fc)
+double * cosine(signal_t sig, double fc)
 {
     double *arr = (double *)malloc(sizeof(double) * sig.size);
     for (int i = 0; i < sig.size; i++)
@@ -68,7 +106,7 @@ double * cosine(signal sig, double fc)
     return arr;
 }
 
-double * tangent(signal sig, double fc)
+double * tangent(signal_t sig, double fc)
 {
     double *arr = (double *)malloc(sizeof(double) * sig.size);
     for (int i = 0; i < sig.size; i++)
@@ -78,7 +116,7 @@ double * tangent(signal sig, double fc)
     return arr;
 }
 
-double * exponent(signal sig)
+double * exponent(signal_t sig)
 {
     double *arr = (double *)malloc(sizeof(double) * sig.size);
     for (int i = 0; i < sig.size; i++)
@@ -88,7 +126,7 @@ double * exponent(signal sig)
     return arr;
 }
 
-double * log_e(signal sig)
+double * log_e(signal_t sig)
 {
     double *arr = (double *)malloc(sizeof(double) * sig.size);
     for (int i = 0; i < sig.size; i++)
@@ -98,7 +136,7 @@ double * log_e(signal sig)
     return arr;
 }
 
-double * log_10(signal sig)
+double * log_10(signal_t sig)
 {
     double *arr = (double *)malloc(sizeof(double) * sig.size);
     for (int i = 0; i < sig.size; i++)

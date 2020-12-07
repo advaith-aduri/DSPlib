@@ -8,12 +8,12 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
-#include "../include/signal.h"
+#include "../include/dsplib.h"
 
 // Operations in time domain
 
 // Shift a signal by a given amount
-void time_shifting(signal *sig, long shift)
+void time_shifting(signal_t *sig, long shift)
 {
 	(*sig).zero = (*sig).zero + shift;
 
@@ -52,29 +52,27 @@ void time_shifting(signal *sig, long shift)
 	}
 }
 
-
-void time_delay(signal *sig, long delay)
+// This function delays the given input signal by delay seconds 
+void time_delay(signal_t *sig, long delay, long Fs)
 {
-	time_shifting(sig, -delay);
+	time_shifting(sig, -delay*Fs);
 }
 
-
-void time_advance(signal *sig, long delay)
+// This function advances the given input signal by delay seconds 
+void time_advance(signal_t *sig, long advance, long Fs)
 {
-	time_shifting(sig, delay);
+	time_shifting(sig, advance*Fs);
 }
 
-
-void time_reversal(signal *sig)
+// This function reverses the given input signal
+void time_reversal(signal_t *sig)
 {
-	double temp;
-	for (int i = 0; i < (*sig).size / 2; i++)
+	double *temp = (double *)malloc(sizeof(double)*sig->size);
+	for (int i = 0; i < sig->size; i++)
 	{
-		temp = (*sig).data[i];
-		(*sig).data[i] = (*sig).data[(*sig).size - i - 1];
-		(*sig).data[(*sig).size - i - 1] = temp;
+		temp[i] = sig->data[sig->size - i - 1];
 	}
-
-	(*sig).zero = (*sig).size - (*sig).zero - 1;
+	sig->data = temp;
+	sig->zero = sig->size - sig->zero - 1;
 }
 

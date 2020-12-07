@@ -6,25 +6,21 @@
 ***********************************************/
 /*
 Order to be followed when piping data to be plotted:
-1 - size of data
-2 - data
-3 - xlabel
-4 - ylabel
-5 - title
-
-Ps:- if multiple data exist, repeat 1,2 before going to 3
+1 - Fs
+2 - size of data
+3 - data
 */
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
 #include <string.h>
-#include "../include/signal.h"
+#include "../include/dsplib.h"
 
-void plot_f(spectrum freq, double Fs)
+void plot_f(spectrum freq, long Fs)
 {
     FILE *fp = popen("python3 ../Python/plot_f.py","w");
     //sending Fs of data to plot.py
-    fprintf(fp,"%f\n",Fs);
+    fprintf(fp,"%ld\n",Fs);
     //sending size of data to plot.py
     fprintf(fp,"%ld\n",freq.size);
     //sending data to plot.py

@@ -6,24 +6,24 @@
 ***********************************************/
 #include <stdio.h>
 #include <stdlib.h>
-#include "../include/signal.h"
+#include "../include/dsplib.h"
 
 
 
 // General signal functions
 
 // Initialize a signal
-signal signal_init(long zero, double *data, long size)
+signal_t signal_init(long zero, double *data, long size)
 {
-	signal temp;
+	signal_t temp;
 	temp.zero = zero;
 	temp.data = data;
 	temp.size = size;
 	return temp;
 }
 
-//Print a signal
-void signal_print(signal sig)
+//Print a signal to the console
+void signal_print(signal_t sig)
 {
 	printf("Zero : %ld\n", sig.zero);
 	printf("Size : %ld\n", sig.size);
@@ -34,9 +34,13 @@ void signal_print(signal sig)
 	printf("\n");
 }
 
-signal get_time(signal sig, double Fs)
+/* 
+This function takes in a signal as the input and returns it's corresponding time series.
+Since the signal_t contains only the zero location, this function can be used to get the corresponding time values.
+*/
+signal_t get_time(signal_t sig, double Fs)
 {
-    signal time;
+    signal_t time;
     time.size = sig.size;
     time.zero = sig.zero;
     time.data = (double *)malloc((sizeof(double))*time.size);
@@ -48,7 +52,8 @@ signal get_time(signal sig, double Fs)
     return time;
 }
 
-double * convolution(double * sig1, long size1, double * sig2, long size2)
+
+double * convolution(double * sig1, long size1, double * sig2, long size2, long *out_size)
 {
     double *output = (double *)malloc(sizeof(double)*(size1 + size2 - 1));
     for (long i = 0; i < (size1 + size2 - 1); i++)
@@ -65,6 +70,7 @@ double * convolution(double * sig1, long size1, double * sig2, long size2)
             }
         }
     }
+    *out_size = size1 + size2 - 1;
     return output;
 }
 

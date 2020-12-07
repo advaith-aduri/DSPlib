@@ -43,6 +43,7 @@ def plot_f():
     ax[1].set_title("Phase Angle")
     ax[1].set_xlabel("Frequency")
     ax[1].set_ylabel("Amplitude")
+    plt.tight_layout()
     plt.show()
 
 n = fork()

@@ -9,8 +9,9 @@
 #include <stdlib.h>
 #include <math.h>
 #include <complex.h>
-#include "../include/signal.h"
+#include "../include/dsplib.h"
 
+// This function prints the frequency spectrum to the console
 void print_freq(spectrum freq)
 {
 	printf("Size : %ld\n", freq.size);
@@ -21,38 +22,49 @@ void print_freq(spectrum freq)
 	printf("\n");
 }
 
-// The following function expects the size of array to be even
-double * get_even(double *arr, int size)
+/*
+This function returns the even indexed values of an array
+This function expects the size of array to be even
+*/
+double * get_even(double *arr, long size)
 {
     double *out = (double *)malloc(sizeof(double)*(size/2));
-    for (int i = 0; i < size/2; i++)
+    for (long i = 0; i < size/2; i++)
     {
         out[i] = arr[2 * i];
     }
     return out;
 }
 
-// The following function expects the size of array to be even
-double * get_odd(double *arr, int size)
+/*
+This function returns the odd indexed values of an array
+This function expects the size of array to be even
+*/
+double * get_odd(double *arr, long size)
 {
     double *out = (double *)malloc(sizeof(double)*(size/2));
-    for (int i = 0; i < size/2; i++)
+    for (long i = 0; i < size/2; i++)
     {
         out[i] = arr[2 * i + 1];
     }
     return out;
 }
 
+// This function returns the magnitude of a complex number
 double mag(double complex val)
 {
     return sqrt(creal(val) * creal(val) + cimag(val) * cimag(val));
 }
 
+// This function returns the twiddle factor 
 double complex W_n(double k, double N)
 {
     return cexp(- I * 2 * M_PI * k / N);
 }
 
+/*
+This function takes an array as an input and performs Discrete Fourier Transform to find its frequency spectrum
+*/
 spectrum DFT(double *signal, long N)
 {
     double complex *data = (double complex *)malloc(sizeof(double complex)*N);
@@ -72,20 +84,28 @@ spectrum DFT(double *signal, long N)
     return freq;
 }
 
-spectrum FFT(signal sig)
+/*
+This function performs a basic Cooley Tukey FFT algorithm to find the spectrum of a signal
+*/
+spectrum FFT(signal_t sig)
 {
     resize_signal(&sig);
     long N = sig.size;
-    double *ev = get_even(sig.data, N);
-    double *od = get_odd(sig.data, N);
+    double *ev = get_even(sig.data, N); // get even indexed values
+    double *od = get_odd(sig.data, N); // get odd indexed values
+
     double complex *freq = (double complex *)malloc(sizeof(double complex)*N);
-    spectrum fev = DFT(ev,N/2);
+    //Compute DFT on the even and odd parts
+    spectrum fev = DFT(ev,N/2); 
     spectrum fod = DFT(od,N/2);
+
+    // Now compute the final values of the frequency spectrum
     for (int i = 0; i < N/2; i++)
     {
         freq[i] = fev.data[i] + W_n(i,N) * fod.data[i];
         freq[i + N/2] = fod.data[i] + W_n(i + N/2, N) * fev.data[i];
     }
+
     spectrum out;
     out.size = N;
     out.data = freq;

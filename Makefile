@@ -4,7 +4,7 @@ OUT = ./lib/libDSPlib.a
 SRC = ./src
 LIB = ./lib
 INC = ./include
-DEP = $(INC)/signal.h
+DEP = $(INC)/dsplib.h
 OBJ = ./lib/signal.o ./lib/time_domain.o ./lib/plot_time.o ./lib/plot_freq.o ./lib/util.o ./lib/frequency_domain.o ./lib/FFT_Threaded.o
 
 all: $(OUT)
